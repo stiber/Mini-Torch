@@ -1,3 +1,7 @@
+# Misc items, like MacOS specific
+.DS_Store
+*.swp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
