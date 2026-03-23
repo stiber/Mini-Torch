@@ -1,0 +1,13 @@
+theme: leap-day
+
+# remote_theme: pages-themes/leap-day@v0.2.0
+# plugins:
+# - jekyll-remote-theme
+
+
+title: The Mini-Torch Framework
+description: A Python framework designed for computer science students building neural networks from scratch.
+
+mermaid: true
+show_downloads: false
+
