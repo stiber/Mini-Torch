@@ -1,8 +1,7 @@
 
 import abc
+from Module import Module
 
-# Assuming Module is already defined/imported from the framework
-# class Activation(Module): 
 class Activation(Module, abc.ABC):
     """
     Abstract base class for all activation functions in the Mini-Torch framework.
