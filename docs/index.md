@@ -16,7 +16,7 @@ To bridge the gap between foundational mathematics and the modern architecture o
 ## Allowable Libraries
 
 * **Required:** `numpy` (Standard array operations), `matplotlib` (Visualization).  
-* **Allowed for Efficiency:** `scipy.special` (Specifically `expit` for Sigmoid, softmax).  
+* **Allowed for Efficiency:** `scipy.special` (specifically `expit` for Sigmoid, softmax), `numexpr`  (specifically `evaluate` to apply optimizations for CPU execution).
 * **Prohibited:** torch, tensorflow, keras, sklearn.neural_network.
 
 
