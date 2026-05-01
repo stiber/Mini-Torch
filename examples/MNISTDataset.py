@@ -3,7 +3,7 @@
 
 import numpy as np
 import csv
-from Dataset import Dataset
+from mini_torch.Dataset import Dataset
 
 class MNISTDataset(Dataset):
     """

@@ -1,6 +1,6 @@
 
 import abc
-from Module import Module
+from .Module import Module
 
 class Activation(Module, abc.ABC):
     """

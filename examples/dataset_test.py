@@ -1,14 +1,7 @@
 
 import numpy as np
-import sys
-from pathlib import Path
-
-# Add the parent directory (src) to the path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-# Now you can import from the src folder
-from Dataset import Dataset
-from MNISTDataset import MNISTDataset
+from mini_torch.Dataset import Dataset
+from examples.MNISTDataset import MNISTDataset
 
 # Assuming the MNISTDataset class (and the Dataset base class) 
 # have been defined or imported here.

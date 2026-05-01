@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mini-torch"
+version = "0.1.0"
+description = "A local library for neural network superclasses"
+dependencies = [
+    # "numpy", # Add dependencies here if needed
+]
+
+[tool.setuptools]
+# This tells setuptools to find the package modules automatically, excluding example/demo code
+packages = {find = {exclude = ["examples*"]}}
