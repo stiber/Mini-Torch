@@ -88,4 +88,17 @@ class Module(abc.ABC):
         return []
     # end method
 
+    def zero_grad(self):
+        """
+        Resets all cached parameter gradients in the module to zero.
+        
+        This default implementation iterates through the arrays returned by 
+        self.grads() and sets their values to zero in-place. Subclasses that 
+        correctly implement grads() generally do not need to override this method.
+        """
+        for grad in self.grads():
+            grad.fill(0.0)
+        # end for
+    # end method
+
 # end class
