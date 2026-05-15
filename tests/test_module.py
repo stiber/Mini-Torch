@@ -46,3 +46,26 @@ def test_module_default_and_concrete_methods():
     # Test the concrete implementation of zero_grad()
     model.zero_grad()
     np.testing.assert_array_equal(model.dW, np.array([0.0, 0.0, 0.0]))
+
+def test_module_zero_grad_with_no_parameters_or_uninitialized_gradients():
+    """Ensures zero_grad safely handles modules without parameters or with uninitialized gradients."""
+    
+    # 1. Test empty list case (e.g., Activation layers)
+    class EmptyModule(Module):
+        def forward(self, x): return x
+        def backward(self, grad_output): return grad_output
+
+    m_empty = EmptyModule()
+    m_empty.zero_grad() # Should not raise an error
+
+    # 2. Test uninitialized gradient case (e.g., Linear layer before backward pass)
+    class UninitializedModule(Module):
+        def __init__(self):
+            super().__init__()
+            self.dW = None
+        def forward(self, x): return x
+        def backward(self, grad_output): return grad_output
+        def grads(self): return [self.dW]
+
+    m_uninit = UninitializedModule()
+    m_uninit.zero_grad() # Should not raise an AttributeError on None.fill()

@@ -97,7 +97,8 @@ class Module(abc.ABC):
         correctly implement grads() generally do not need to override this method.
         """
         for grad in self.grads():
-            grad.fill(0.0)
+            if grad is not None:
+                grad.fill(0.0)
         # end for
     # end method
 
