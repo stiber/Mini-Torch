@@ -1,5 +1,6 @@
 
 import abc
+import numpy as np
 
 class Module(abc.ABC):
     """
@@ -99,6 +100,32 @@ class Module(abc.ABC):
         for grad in self.grads():
             if grad is not None:
                 grad.fill(0.0)
+        # end for
+    # end method
+
+    def save_weights(self, filepath):
+        """Saves all parameters to a compressed .npz file."""
+        # Get the list of parameters (NumPy arrays) from the model
+        params = self.parameters()
+        
+        # Create a dictionary mapping an index to each array
+        state_dict = {f"weight_{i}": param for i, param in enumerate(params)}
+        
+        # Save them to an unpickled, compressed numpy archive
+        np.savez_compressed(filepath, **state_dict)
+    # end method
+
+    def load_weights(self, filepath):
+        """Loads weights from a .npz file and overwrites current parameters."""
+        archive = np.load(filepath)
+        params = self.parameters()
+        
+        for i, param in enumerate(params):
+            loaded_array = archive[f"weight_{i}"]
+            # Ensure shapes match before overwriting!
+            assert param.shape == loaded_array.shape, f"Shape mismatch at layer {i}"
+            # Overwrite the data in-place
+            param[:] = loaded_array
         # end for
     # end method
 
