@@ -1,6 +1,7 @@
 
 import abc
 import numpy as np
+from .backend import asnumpy, as_backend_array
 
 class Module(abc.ABC):
     """
@@ -109,7 +110,7 @@ class Module(abc.ABC):
         params = self.parameters()
         
         # Create a dictionary mapping an index to each array
-        state_dict = {f"weight_{i}": param for i, param in enumerate(params)}
+        state_dict = {f"weight_{i}": asnumpy(param) for i, param in enumerate(params)}
         
         # Save them to an unpickled, compressed numpy archive
         np.savez_compressed(filepath, **state_dict)
@@ -125,7 +126,7 @@ class Module(abc.ABC):
             # Ensure shapes match before overwriting!
             assert param.shape == loaded_array.shape, f"Shape mismatch at layer {i}"
             # Overwrite the data in-place
-            param[:] = loaded_array
+            param[:] = as_backend_array(loaded_array)
         # end for
     # end method
 

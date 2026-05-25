@@ -10,6 +10,7 @@ from .Dataset import Dataset
 from .Loss import Loss
 from .Module import Module
 from .Optimizer import Optimizer
+from .backend import xp, is_gpu_available, asnumpy, as_backend_array
 
 __all__ = [
     "Activation",
@@ -18,4 +19,8 @@ __all__ = [
     "Loss",
     "Module",
     "Optimizer",
+    "xp",
+    "is_gpu_available",
+    "asnumpy",
+    "as_backend_array",
 ]
