@@ -1,6 +1,7 @@
 import pytest
 import numpy as np
 from mini_torch.Module import Module
+from mini_torch.backend import xp, asnumpy
 
 def test_module_cannot_be_instantiated_directly():
     """Ensures that Python prevents direct instantiation of the ABC."""
@@ -26,7 +27,7 @@ def test_module_default_and_concrete_methods():
         def __init__(self):
             super().__init__()
             # Simulate a gradient array that needs to be zeroed
-            self.dW = np.array([1.5, -2.0, 3.1])
+            self.dW = xp.array([1.5, -2.0, 3.1])
             
         def forward(self, x):
             return x
@@ -45,7 +46,7 @@ def test_module_default_and_concrete_methods():
     
     # Test the concrete implementation of zero_grad()
     model.zero_grad()
-    np.testing.assert_array_equal(model.dW, np.array([0.0, 0.0, 0.0]))
+    np.testing.assert_array_equal(asnumpy(model.dW), np.array([0.0, 0.0, 0.0]))
 
 def test_module_zero_grad_with_no_parameters_or_uninitialized_gradients():
     """Ensures zero_grad safely handles modules without parameters or with uninitialized gradients."""
@@ -75,8 +76,8 @@ def test_module_save_and_load_weights(tmp_path):
     class DummyModule(Module):
         def __init__(self, w_val, b_val):
             super().__init__()
-            self.W = np.array([w_val, w_val], dtype=np.float32)
-            self.b = np.array([b_val], dtype=np.float32)
+            self.W = xp.array([w_val, w_val], dtype=np.float32)
+            self.b = xp.array([b_val], dtype=np.float32)
             
         def forward(self, x): return x
         def backward(self, grad_output): return grad_output
@@ -92,15 +93,15 @@ def test_module_save_and_load_weights(tmp_path):
     model_new.load_weights(str(filepath))
     
     # Assert weights were updated correctly from the file
-    np.testing.assert_array_equal(model_new.W, np.array([1.5, 1.5], dtype=np.float32))
-    np.testing.assert_array_equal(model_new.b, np.array([-0.5], dtype=np.float32))
+    np.testing.assert_array_equal(asnumpy(model_new.W), np.array([1.5, 1.5], dtype=np.float32))
+    np.testing.assert_array_equal(asnumpy(model_new.b), np.array([-0.5], dtype=np.float32))
 
 def test_module_load_weights_shape_mismatch(tmp_path):
     """Ensures load_weights raises an assertion error if parameter shapes do not match."""
     class DummyModule(Module):
         def __init__(self, shape):
             super().__init__()
-            self.W = np.zeros(shape, dtype=np.float32)
+            self.W = xp.zeros(shape, dtype=np.float32)
             
         def forward(self, x): return x
         def backward(self, grad_output): return grad_output
