@@ -1,6 +1,14 @@
 name: Unit Tests
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - '**.py'
+      - '.github/workflows/python-tests.yml'
+  pull_request:
+    paths:
+      - '**.py'
+      - '.github/workflows/python-tests.yml'
 
 jobs:
   build:
