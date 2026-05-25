@@ -22,9 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          path: 'docs'  # or wherever your built site is
+          name: github-pages
+          path: 'docs'                        # where your built site is
       
   deploy:
     environment:
