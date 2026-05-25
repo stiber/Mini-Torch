@@ -1,4 +1,5 @@
 import numpy as np
+import warnings
 
 # Attempt to load CuPy and verify GPU availability
 try:
@@ -9,9 +10,11 @@ try:
     xp = cp
     is_gpu_available = True
     
-    # Import CuPy's scipy equivalents
-    import cupyx.scipy.special as scipy_special
-    import cupyx.scipy.signal as scipy_signal
+    # Import CuPy's scipy equivalents, suppressing experimental warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=FutureWarning)
+        import cupyx.scipy.special as scipy_special
+        import cupyx.scipy.signal as scipy_signal
 
 except Exception:
     # Fallback to standard CPU NumPy/SciPy if CuPy is missing or fails
