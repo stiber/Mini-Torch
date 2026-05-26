@@ -1,3 +1,15 @@
+"""
+Backend abstraction module for Mini-Torch.
+
+This module provides the following symbols for hardware-agnostic development:
+- `xp`: The active array module (`numpy` or `cupy`). Use this for array operations.
+- `is_gpu_available` (bool): True if CuPy and a compatible GPU are accessible.
+- `scipy_special`: The active SciPy special module (e.g., `scipy.special` or `cupyx.scipy.special`).
+- `scipy_signal`: The active SciPy signal module (e.g., `scipy.signal` or `cupyx.scipy.signal`).
+- `asnumpy(x)`: Converts an array from the active backend to a CPU NumPy array.
+- `as_backend_array(x)`: Moves a CPU NumPy array to the active backend.
+"""
+
 import numpy as np
 import warnings
 

@@ -158,6 +158,14 @@ Loss functions quantify the difference between model predictions and target valu
 *   **`forward(predictions, targets)`:** Returns a scalar measure of the error (e.g., Mean Squared Error or Cross-Entropy).
 *   **`backward()`:** Computes the initial loss gradient with respect to the network's predictions. This output is then passed directly into the final `Module`'s `backward(grad_output)` method.
 
+### Backend Abstraction (`backend.py`)
+To seamlessly support both CPU computation (via `numpy`) and GPU acceleration (via `cupy`), the framework includes a `backend.py` abstraction module. Developers should utilize this module to write hardware-agnostic code:
+*   **`xp`:** An alias for the active array library (`numpy` or `cupy`). When initializing arrays or performing mathematical operations, use `xp` (e.g., `xp.array()`, `xp.zeros()`, `xp.exp()`) instead of `np` to ensure operations execute on the correct device.
+*   **`asnumpy(x)`:** A utility function to safely pull an array back to the CPU as a standard `numpy.ndarray`. This is important for interoperability with standard libraries like `matplotlib` or when saving weights to disk (`np.savez_compressed()`).
+*   **`as_backend_array(x)`:** A utility function to push a standard CPU NumPy array onto the active backend (which will be the GPU if available). This is primarily used for loading datasets or restoring saved model weights.
+*   **`scipy_special` and `scipy_signal`:** Aliases for `scipy` submodules that automatically resolve to their `cupyx` equivalents when executing on a GPU, allowing specialized mathematical operations without breaking backend compatibility.
+*   **`is_gpu_available`:** A boolean flag that can be checked to see if the CUDA runtime is accessible and the GPU backend is active.
+
 ###  Management (`Dataset` and `DataLoader`)
 These classes separate data handling logic from the main training loop.
 *   **`Dataset` Base Class:** ([detailed information](Dataset.md)) An abstract class requiring students to implement two python "magic" methods: `__len__(self)` to return the total number of samples, and `__getitem__(self, index)` to retrieve a single `(x, y)` data sample and label at a specific index.
