@@ -44,6 +44,8 @@ classDiagram
         +backward(grad_output)
         +parameters() list
         +grads() list
+        +save_weights(filepath)
+        +load_weights(filepath)
     }
 
     class Sequential {
@@ -134,6 +136,8 @@ The `Module` base class is the foundational building block of the neural network
 * `__init__(self, ...)`: This method is strictly required. It must call `super().__init__()` and is used to define and register the internal layers and parameters the module will use. Parameters will depend on whether the subclass implements a single layer or is a container.
 * `forward(self, x)`: The method where the forward pass computation (how input `x` flows through the layer(s) defined in `__init__()`) is explicitly specified.
 * `backward(self, grad_output)`: The method where the backward pass (computation of parameter and input gradients from output gradients) is specified.
+* `save_weights(self, filepath)`: Saves all learnable parameters to a compressed `.npz` file. This method converts active backend arrays to standard CPU NumPy arrays before saving.
+* `load_weights(self, filepath)`: Loads weights from a `.npz` file and overwrites the current parameters in-place, pushing the loaded arrays onto the active backend.
 
 
 #### `Sequential` Container ([detailed information](Container.md))
