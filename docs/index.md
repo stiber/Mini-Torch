@@ -165,6 +165,7 @@ To seamlessly support both CPU computation (via `numpy`) and GPU acceleration (v
 *   **`as_backend_array(x)`:** A utility function to push a standard CPU NumPy array onto the active backend (which will be the GPU if available). This is primarily used for loading datasets or restoring saved model weights.
 *   **`scipy_special` and `scipy_signal`:** Aliases for `scipy` submodules that automatically resolve to their `cupyx` equivalents when executing on a GPU, allowing specialized mathematical operations without breaking backend compatibility.
 *   **`is_gpu_available`:** A boolean flag that can be checked to see if the CUDA runtime is accessible and the GPU backend is active.
+*   **Forcing CPU Execution:** Set the shell environment variable `MINI_TORCH_FORCE_CPU=1` before executing your code to intentionally bypass GPU acceleration and force the framework to run on the CPU via `numpy`.
 
 ###  Management (`Dataset` and `DataLoader`)
 These classes separate data handling logic from the main training loop.

@@ -8,13 +8,20 @@ This module provides the following symbols for hardware-agnostic development:
 - `scipy_signal`: The active SciPy signal module (e.g., `scipy.signal` or `cupyx.scipy.signal`).
 - `asnumpy(x)`: Converts an array from the active backend to a CPU NumPy array.
 - `as_backend_array(x)`: Moves a CPU NumPy array to the active backend.
+
+Environment Variables:
+- `MINI_TORCH_FORCE_CPU`: Set to '1', 'true', or 'yes' before import to force the CPU (NumPy) backend.
 """
 
 import numpy as np
 import warnings
+import os
 
 # Attempt to load CuPy and verify GPU availability
 try:
+    if os.environ.get("MINI_TORCH_FORCE_CPU", "0").lower() in ("1", "true", "yes"):
+        raise RuntimeError("MINI_TORCH_FORCE_CPU is set. Forcing CPU fallback.")
+
     import cupy as cp
     # A simple call to test if the CUDA runtime and device are actually accessible
     cp.cuda.Device(0).compute_capability
